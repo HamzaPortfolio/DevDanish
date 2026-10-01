@@ -1,205 +1,795 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="dark scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Danish Imran - Portfolio</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danish Imran — Award-Winning Developer & Consultant</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#09090b',
+                        cardBg: '#121216',
+                        cardHover: '#18181f',
+                        accentPurple: '#9333ea',
+                        accentLight: '#c084fc',
+                        mutedText: '#a1a1aa'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS for animations, custom cursor and glassmorphism -->
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            cursor: default;
+        }
+        button, a, input, textarea {
+            cursor: pointer;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050507;
+            color: #f4f4f5;
+            overflow-x: hidden;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot, .cursor-circle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease-out, opacity 0.3s ease;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #c084fc;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .cursor-circle {
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(192, 132, 252, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, border-color 0.2s;
+        }
+        body:hover .cursor-circle {
+            opacity: 1;
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(18, 18, 22, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-panel-hover:hover {
+            background: rgba(24, 24, 31, 0.85);
+            border-color: rgba(147, 51, 234, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(147, 51, 234, 0.3);
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #c084fc 50%, #9333ea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-border {
+            position: relative;
+            border-radius: 1rem;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.4), rgba(255, 255, 255, 0.05));
+            padding: 1px;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050507;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3f3f46;
+        }
+
+        /* Fade in up animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
-<body class="bg-gray-900 text-white font-sans">
+<body class="bg-[#050507] text-zinc-100 antialiased selection:bg-purple-600 selection:text-white">
 
-  <!-- Navbar -->
-  <nav class="bg-gray-800 p-4 fixed top-0 w-full z-50 shadow-md">
-    <div class="max-w-7xl mx-auto flex justify-between items-center">
-      <h1 class="text-xl font-bold text-cyan-400">Danish.dev</h1>
-      <ul class="flex gap-4 text-sm">
-        <li><a href="#hero" class="hover:text-cyan-400">Home</a></li>
-        <li><a href="#about" class="hover:text-cyan-400">About</a></li>
-        <li><a href="#skills" class="hover:text-cyan-400">Skills</a></li>
-        <li><a href="#services" class="hover:text-cyan-400">Services</a></li>
-        <li><a href="#contact" class="hover:text-cyan-400">Contact</a></li>
-      </ul>
-    </div>
-  </nav>
+    <div class="cursor-dot hidden md:block" id="cursor-dot"></div>
+    <div class="cursor-circle hidden md:block" id="cursor-circle"></div>
 
-  <!-- Hero -->
-  <section id="hero" class="bg-gray-950 text-white min-h-[60vh] flex items-center justify-center px-4">
-    <div class="text-center max-w-2xl">
-      <h1 class="text-4xl md:text-5xl font-extrabold text-cyan-400 mb-4">Danish Imran</h1>
-      <h2 class="text-xl md:text-2xl text-gray-300 mb-6">WordPress & Shopify Developer</h2>
-      <a href="#contact" class="inline-block bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded-full transition">
-        Contact Me
-      </a>
-    </div>
-  </section>
+    <header class="fixed top-0 left-0 w-full z-50 glass-panel border-b border-white/5 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="text-xl font-bold tracking-tight text-white flex items-center gap-2 group">
+                <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center text-white font-black text-sm shadow-lg shadow-purple-500/30 group-hover:scale-105 transition-transform">DI</span>
+                <span>Danish Imran</span>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
+                <a href="#about" class="hover:text-purple-400 transition-colors">About</a>
+                <a href="#services" class="hover:text-purple-400 transition-colors">What I Do</a>
+                <a href="#experience" class="hover:text-purple-400 transition-colors">Experience</a>
+                <a href="#works" class="hover:text-purple-400 transition-colors">Recent Works</a>
+                <a href="#blog" class="hover:text-purple-400 transition-colors">Blog</a>
+            </nav>
 
-  <!-- About -->
-  <section id="about" class="max-w-4xl mx-auto px-4 py-12">
-    <h2 class="text-3xl font-semibold border-b border-gray-700 pb-2 text-cyan-400">About Me</h2>
-    <p class="mt-4 text-gray-300">
-      A skilled and knowledgeable WordPress Developer with over 4 years of professional experience in all aspects of WP & Front-end website development including design, plugins and implementation. A results-oriented developer with a successful track record of exceeding expectations for web development projects. Willing to relocate: Anywhere.
-    </p>
-  </section>
-
-  <!-- Skills -->
-  <section id="skills" class="bg-gray-900 py-12 px-4">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="text-3xl font-semibold text-cyan-400 mb-8">Skills</h2>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div class="bg-gray-800 p-4 rounded-xl text-center">WordPress</div>
-        <div class="bg-gray-800 p-4 rounded-xl text-center">Shopify</div>
-        <div class="bg-gray-800 p-4 rounded-xl text-center">Elementor</div>
-        <div class="bg-gray-800 p-4 rounded-xl text-center">JavaScript</div>
-        <div class="bg-gray-800 p-4 rounded-xl text-center">PHP</div>
-        <div class="bg-gray-800 p-4 rounded-xl text-center">HTML5</div>
-        <div class="bg-gray-800 p-4 rounded-xl text-center">CSS3</div>
-        <div class="bg-gray-800 p-4 rounded-xl text-center">jQuery</div>
-        <div class="bg-gray-800 p-4 rounded-xl text-center">SEO</div>
-        <div class="bg-gray-800 p-4 rounded-xl text-center">Email Marketing</div>
-        <div class="bg-gray-800 p-4 rounded-xl text-center">UX Design</div>
-        <div class="bg-gray-800 p-4 rounded-xl text-center">Sass</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Services -->
-  <section id="services" class="bg-gray-800 py-12 px-4">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="text-3xl font-semibold text-cyan-400 mb-8">Services</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-gray-900 p-6 rounded-xl shadow-md hover:shadow-cyan-400/30 transition">
-          <h3 class="text-xl font-bold text-white mb-2">Website Development</h3>
-          <p class="text-gray-400">Custom and responsive websites with SEO-friendly code.</p>
-        </div>
-        <div class="bg-gray-900 p-6 rounded-xl shadow-md hover:shadow-cyan-400/30 transition">
-          <h3 class="text-xl font-bold text-white mb-2">SEO Optimization</h3>
-          <p class="text-gray-400">Rank better on Google with on-page/off-page SEO.</p>
-        </div>
-        <div class="bg-gray-900 p-6 rounded-xl shadow-md hover:shadow-cyan-400/30 transition">
-          <h3 class="text-xl font-bold text-white mb-2">WordPress Customization</h3>
-          <p class="text-gray-400">Tailored WordPress themes with Elementor & WP Bakery.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Projects -->
-  <section id="projects" class="bg-gray-800 py-12 px-4">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="text-3xl font-semibold text-cyan-400 mb-8">Projects</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <a href="https://www.poopiebegone.com/" class="block bg-gray-900 p-6 rounded-xl hover:shadow-cyan-400/30 transition">poopiebegone.com</a>
-        <a href="https://routingprosllc.com/" class="block bg-gray-900 p-6 rounded-xl hover:shadow-cyan-400/30 transition">routingprosllc.com</a>
-        <a href="https://www.informatiative.com/" class="block bg-gray-900 p-6 rounded-xl hover:shadow-cyan-400/30 transition">informatiative.com</a>
-        <a href="https://www.designmatepro.com/" class="block bg-gray-900 p-6 rounded-xl hover:shadow-cyan-400/30 transition">designmatepro.com</a>
-        <a href="https://devsecc.io/" class="block bg-gray-900 p-6 rounded-xl hover:shadow-cyan-400/30 transition">devsecc.io</a>
-        <a href="https://newgourmetdelightsllc.com/" class="block bg-gray-900 p-6 rounded-xl hover:shadow-cyan-400/30 transition">newgourmetdelightsllc.com</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Pricing -->
-  <section id="pricing" class="bg-gray-950 py-12 px-4">
-    <div class="max-w-6xl mx-auto text-center">
-      <h2 class="text-3xl font-semibold text-cyan-400 mb-10">Pricing Plans</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="bg-gray-800 rounded-2xl p-8 shadow-md hover:shadow-cyan-400/30 transition">
-          <h3 class="text-xl font-bold text-white mb-4">Basic</h3>
-          <p class="text-4xl font-extrabold text-cyan-400 mb-4">$49</p>
-          <ul class="text-gray-300 space-y-2 mb-6">
-            <li>1 Page Website</li>
-            <li>Responsive Design</li>
-            <li>Basic SEO</li>
-            <li>Email Support</li>
-          </ul>
-          <button class="bg-cyan-500 hover:bg-cyan-600 text-white py-2 px-6 rounded-full">Get Started</button>
-        </div>
-        <div class="bg-gray-800 rounded-2xl p-8 shadow-md hover:shadow-cyan-400/30 transition border border-cyan-400">
-          <h3 class="text-xl font-bold text-white mb-4">Standard</h3>
-          <p class="text-4xl font-extrabold text-cyan-400 mb-4">$99</p>
-          <ul class="text-gray-300 space-y-2 mb-6">
-            <li>5 Pages Website</li>
-            <li>Responsive Design</li>
-            <li>Advanced SEO</li>
-            <li>Chat & Email Support</li>
-          </ul>
-          <button class="bg-cyan-500 hover:bg-cyan-600 text-white py-2 px-6 rounded-full">Get Started</button>
-        </div>
-        <div class="bg-gray-800 rounded-2xl p-8 shadow-md hover:shadow-cyan-400/30 transition">
-          <h3 class="text-xl font-bold text-white mb-4">Premium</h3>
-          <p class="text-4xl font-extrabold text-cyan-400 mb-4">$199</p>
-          <ul class="text-gray-300 space-y-2 mb-6">
-            <li>Unlimited Pages</li>
-            <li>Custom Design</li>
-            <li>Full SEO Package</li>
-            <li>24/7 Support</li>
-          </ul>
-          <button class="bg-cyan-500 hover:bg-cyan-600 text-white py-2 px-6 rounded-full">Get Started</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonials -->
-  <section id="testimonials" class="bg-gray-900 py-12 px-4">
-    <div class="max-w-3xl mx-auto text-center">
-      <h2 class="text-3xl font-semibold text-cyan-400 mb-8">Testimonials</h2>
-      <div class="relative overflow-hidden">
-        <div id="testimonial-slider" class="flex transition-transform duration-700">
-          <div class="min-w-full px-6">
-            <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
-              <p class="text-gray-300 mb-4">"Danish delivered our project on time with impressive performance optimizations."</p>
-              <h3 class="text-white font-semibold">– Jenna Markus</h3>
+            <div class="flex items-center gap-4">
+                <a href="#contact" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold text-sm shadow-lg shadow-purple-600/30 transition-all transform hover:-translate-y-0.5">
+                    Let's Talk
+                </a>
+                <button id="mobile-menu-btn" class="md:hidden text-zinc-300 hover:text-white p-2">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
             </div>
-          </div>
-          <div class="min-w-full px-6">
-            <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
-              <p class="text-gray-300 mb-4">"Reliable, quick, and knows his tools. Highly recommend for Shopify stores!"</p>
-              <h3 class="text-white font-semibold">– John Cooper</h3>
-            </div>
-          </div>
-          <div class="min-w-full px-6">
-            <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
-              <p class="text-gray-300 mb-4">"Exceeded expectations! Our landing pages are now fast and visually perfect."</p>
-              <h3 class="text-white font-semibold">– Anthony Woods</h3>
-            </div>
-          </div>
         </div>
-        <div class="flex justify-center mt-6 space-x-4">
-          <button onclick="moveSlide(-1)" class="bg-cyan-500 hover:bg-cyan-600 px-4 py-2 rounded-full text-white">‹</button>
-          <button onclick="moveSlide(1)" class="bg-cyan-500 hover:bg-cyan-600 px-4 py-2 rounded-full text-white">›</button>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-white/5 px-6 py-4 space-y-3">
+            <a href="#about" class="block text-zinc-300 hover:text-purple-400 py-1 font-medium mobile-link">About</a>
+            <a href="#services" class="block text-zinc-300 hover:text-purple-400 py-1 font-medium mobile-link">What I Do</a>
+            <a href="#experience" class="block text-zinc-300 hover:text-purple-400 py-1 font-medium mobile-link">Experience</a>
+            <a href="#works" class="block text-zinc-300 hover:text-purple-400 py-1 font-medium mobile-link">Recent Works</a>
+            <a href="#blog" class="block text-zinc-300 hover:text-purple-400 py-1 font-medium mobile-link">Blog</a>
+            <a href="#contact" class="block text-zinc-300 hover:text-purple-400 py-1 font-medium mobile-link">Contact</a>
         </div>
-      </div>
-    </div>
-  </section>
+    </header>
 
-  <!-- Contact -->
-  <section id="contact" class="bg-gray-800 py-12 px-4">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-semibold text-cyan-400">Contact</h2>
-      <ul class="mt-4 text-gray-300">
-        <li><strong>Phone:</strong> +92 341 2989108</li>
-        <li><strong>Email:</strong> danishqureshi1245@gmail.com</li>
-        <li><strong>Location:</strong> Nazimabad, Karachi</li>
-      </ul>
-    </div>
-  </section>
+    <section id="about" class="pt-32 pb-20 md:pt-44 md:pb-28 relative overflow-hidden">
+        <!-- Background glowing blobs -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[140px] pointer-events-none"></div>
+        <div class="absolute top-10 right-10 w-96 h-96 bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-  <!-- Footer -->
-  <footer class="text-center text-gray-500 py-6">
-    &copy; 2025 Danish Imran. All rights reserved.
-  </footer>
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left text column -->
+                <div class="lg:col-span-7 space-y-8 reveal">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-950/60 border border-purple-500/30 text-purple-300 text-xs font-semibold tracking-wider uppercase shadow-inner">
+                        <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+                        Available for freelance & full-time roles
+                    </div>
+                    
+                    <h1 class="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.08] text-white">
+                        Danish <span class="gradient-text">Imran</span>
+                    </h1>
 
-  <script>
-    let currentSlide = 0;
-    const slides = document.getElementById("testimonial-slider");
+                    <p class="text-zinc-300 text-lg sm:text-xl font-normal leading-relaxed max-w-2xl">
+                        Professional Web Developer, WordPress Expert, SEO Optimization specialist, and Business Management consultant dedicated to building robust digital experiences that scale businesses.
+                    </p>
 
-    function moveSlide(step) {
-      const totalSlides = slides.children.length;
-      currentSlide = (currentSlide + step + totalSlides) % totalSlides;
-      slides.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }
-  </script>
+                    <div class="flex flex-wrap items-center gap-4 pt-2">
+                        <a href="#contact" class="px-8 py-4 rounded-full bg-white text-zinc-900 font-bold hover:bg-zinc-100 transition-all shadow-xl shadow-white/10 flex items-center gap-2 group">
+                            <span>Get in Touch</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                        <a href="#works" class="px-8 py-4 rounded-full glass-panel hover:bg-zinc-800/80 text-white font-semibold transition-all">
+                            View Portfolio
+                        </a>
+                    </div>
 
+                    <div class="pt-6 flex items-center gap-6">
+                        <span class="text-xs uppercase font-bold tracking-widest text-zinc-500">Follow Me</span>
+                        <div class="flex items-center gap-3">
+                            <a href="https://github.com" target="_blank" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-zinc-300 hover:text-white hover:bg-purple-600/30 hover:border-purple-500/50 transition-all">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                            <a href="https://linkedin.com" target="_blank" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-zinc-300 hover:text-white hover:bg-purple-600/30 hover:border-purple-500/50 transition-all">
+                                <i class="fa-brands fa-linkedin-in"></i>
+                            </a>
+                            <a href="https://twitter.com" target="_blank" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-zinc-300 hover:text-white hover:bg-purple-600/30 hover:border-purple-500/50 transition-all">
+                                <i class="fa-brands fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right profile & stats column -->
+                <div class="lg:col-span-5 flex flex-col items-center reveal">
+                    <div class="relative group w-full max-w-md">
+                        <div class="absolute -inset-1 rounded-3xl bg-gradient-to-r from-purple-600 to-indigo-600 opacity-30 blur-xl group-hover:opacity-60 transition duration-1000 group-hover:duration-200"></div>
+                        
+                        <div class="relative glass-panel rounded-3xl p-6 text-center shadow-2xl">
+                            <!-- Profile Image with fallback -->
+                            <div class="w-36 h-36 md:w-44 md:h-44 mx-auto rounded-2xl overflow-hidden mb-6 border-2 border-purple-500/40 shadow-2xl relative">
+                                <img src="https://res.cloudinary.com/cvkdz3dc/image/upload/v1790721794/WhatsApp_Image_2026-09-30_at_3.06.48_AM.jpg" 
+                                     alt="Danish Imran" 
+                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                     onerror="this.src='https://placehold.co/400x400/121216/c084fc?text=Danish+Imran'">
+                            </div>
+
+                            <h3 class="text-2xl font-bold text-white mb-1">Danish Imran</h3>
+                            <p class="text-purple-400 font-medium text-sm mb-6">Expert Web Developer & Consultant</p>
+
+                            <!-- Stats Grid -->
+                            <div class="grid grid-cols-3 gap-3 pt-4 border-t border-white/10 text-center">
+                                <div class="p-2 rounded-xl bg-white/[0.02]">
+                                    <h4 class="text-2xl font-black text-white">+100</h4>
+                                    <p class="text-xs text-zinc-400 mt-1 font-medium">Projects</p>
+                                </div>
+                                <div class="p-2 rounded-xl bg-white/[0.02]">
+                                    <h4 class="text-2xl font-black text-white">+6</h4>
+                                    <p class="text-xs text-zinc-400 mt-1 font-medium">Years Exp.</p>
+                                </div>
+                                <div class="p-2 rounded-xl bg-white/[0.02]">
+                                    <h4 class="text-2xl font-black text-white">+150</h4>
+                                    <p class="text-xs text-zinc-400 mt-1 font-medium">Clients</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+                <span class="text-purple-400 text-xs font-bold tracking-widest uppercase mb-3 block">Expertise</span>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight text-white mb-4">What I <span class="gradient-text">Do</span></h2>
+                <p class="text-zinc-400">Comprehensive digital solutions engineered for modern enterprises and high-growth startups.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Service 1 -->
+                <div class="glass-panel glass-panel-hover rounded-3xl p-8 transition-all duration-300 reveal flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="text-xs font-bold text-purple-400 tracking-wider">01</span>
+                            <div class="w-14 h-14 rounded-2xl bg-purple-950/60 border border-purple-500/30 flex items-center justify-center text-purple-300 text-2xl group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all">
+                                <i class="fa-solid fa-code"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Web Development</h3>
+                        <p class="text-zinc-400 text-base leading-relaxed">
+                            Specialized in building lightning-fast, highly responsive, and scalable web applications using modern JavaScript frameworks, Tailwind CSS, and optimized backend architectures.
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-4 border-t border-white/5 flex items-center gap-2 text-purple-400 text-sm font-semibold">
+                        <span>Explore capabilities</span>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="glass-panel glass-panel-hover rounded-3xl p-8 transition-all duration-300 reveal flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="text-xs font-bold text-purple-400 tracking-wider">02</span>
+                            <div class="w-14 h-14 rounded-2xl bg-purple-950/60 border border-purple-500/30 flex items-center justify-center text-purple-300 text-2xl group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all">
+                                <i class="fa-brands fa-wordpress"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">WordPress Development</h3>
+                        <p class="text-zinc-400 text-base leading-relaxed">
+                            Custom theme development, plugin integration, speed optimization, and secure e-commerce solutions built on WordPress and WooCommerce for maximum conversion.
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-4 border-t border-white/5 flex items-center gap-2 text-purple-400 text-sm font-semibold">
+                        <span>Explore capabilities</span>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="glass-panel glass-panel-hover rounded-3xl p-8 transition-all duration-300 reveal flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="text-xs font-bold text-purple-400 tracking-wider">03</span>
+                            <div class="w-14 h-14 rounded-2xl bg-purple-950/60 border border-purple-500/30 flex items-center justify-center text-purple-300 text-2xl group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">SEO Optimization</h3>
+                        <p class="text-zinc-400 text-base leading-relaxed">
+                            Data-driven search engine optimization strategies, technical audits, keyword dominance, and organic traffic growth that puts your brand at the top of Google.
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-4 border-t border-white/5 flex items-center gap-2 text-purple-400 text-sm font-semibold">
+                        <span>Explore capabilities</span>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="glass-panel glass-panel-hover rounded-3xl p-8 transition-all duration-300 reveal flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="text-xs font-bold text-purple-400 tracking-wider">04</span>
+                            <div class="w-14 h-14 rounded-2xl bg-purple-950/60 border border-purple-500/30 flex items-center justify-center text-purple-300 text-2xl group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all">
+                                <i class="fa-solid fa-briefcase"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Scaling & Business Management</h3>
+                        <p class="text-zinc-400 text-base leading-relaxed">
+                            Strategic consulting, workflow automation, digital transformation roadmaps, and operational excellence to help businesses scale sustainably and profitably.
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-4 border-t border-white/5 flex items-center gap-2 text-purple-400 text-sm font-semibold">
+                        <span>Explore capabilities</span>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="py-24 relative bg-zinc-950/50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+                <span class="text-purple-400 text-xs font-bold tracking-widest uppercase mb-3 block">Career Track</span>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight text-white mb-4">Work <span class="gradient-text">Experience</span></h2>
+                <p class="text-zinc-400">A timeline of professional milestones, leadership roles, and impactful engineering projects.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Exp 1 -->
+                <div class="glass-panel rounded-3xl p-6 reveal flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-purple-950/80 border border-purple-500/30 text-purple-300 text-xs font-semibold">2023 — Present</span>
+                            <span class="text-xs text-zinc-500 font-bold uppercase">Senior Lead</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-1">Lead Web Architect</h3>
+                        <p class="text-purple-400 text-sm mb-4">Digital Solutions Corp</p>
+                        <ul class="space-y-2 text-zinc-400 text-sm">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-purple-400 mt-1"></i>
+                                <span>Spearheaded full-stack development for enterprise client portals.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-purple-400 mt-1"></i>
+                                <span>Improved site speed by 65% through advanced optimization.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Exp 2 -->
+                <div class="glass-panel rounded-3xl p-6 reveal flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-purple-950/80 border border-purple-500/30 text-purple-300 text-xs font-semibold">2021 — 2023</span>
+                            <span class="text-xs text-zinc-500 font-bold uppercase">Consultant</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-1">WordPress & SEO Specialist</h3>
+                        <p class="text-purple-400 text-sm mb-4">Growth Media Agency</p>
+                        <ul class="space-y-2 text-zinc-400 text-sm">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-purple-400 mt-1"></i>
+                                <span>Built custom WooCommerce ecosystems for 40+ international brands.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-purple-400 mt-1"></i>
+                                <span>Executed SEO campaigns resulting in 150% average traffic growth.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Exp 3 -->
+                <div class="glass-panel rounded-3xl p-6 reveal flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-purple-950/80 border border-purple-500/30 text-purple-300 text-xs font-semibold">2020 — 2021</span>
+                            <span class="text-xs text-zinc-500 font-bold uppercase">Management</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-1">Business Operations Consultant</h3>
+                        <p class="text-purple-400 text-sm mb-4">Apex Enterprises</p>
+                        <ul class="space-y-2 text-zinc-400 text-sm">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-purple-400 mt-1"></i>
+                                <span>Streamlined internal workflows reducing operational overhead by 30%.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-purple-400 mt-1"></i>
+                                <span>Managed client acquisition pipelines and tech integration.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="works" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+                <span class="text-purple-400 text-xs font-bold tracking-widest uppercase mb-3 block">Portfolio</span>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight text-white mb-4">Recent <span class="gradient-text">Works</span></h2>
+                <p class="text-zinc-400">Selected projects highlighting technical mastery, clean UI/UX, and performance.</p>
+            </div>
+
+            <!-- Portfolio Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Project 1: Match Punk -->
+                <div class="glass-panel rounded-3xl overflow-hidden group reveal flex flex-col justify-between">
+                    <div class="h-56 overflow-hidden relative bg-gradient-to-br from-purple-900/50 to-indigo-900/50">
+                        <img src="https://placehold.co/600x400/1e1b4b/c084fc?text=Match+Punk&font=inter" 
+                             alt="Match Punk" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80"></div>
+                        <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-purple-300 text-xs font-bold border border-white/10">Web App</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Match Punk</h3>
+                        <p class="text-zinc-400 text-sm mb-6">Premier companion app for Magic: The Gathering featuring ELO ranking, life tracking, and match history.</p>
+                        <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                            <span class="text-xs text-zinc-500 font-semibold">React & Node.js</span>
+                            <a href="https://matchpunk.com/" target="_blank" class="w-9 h-9 rounded-full bg-purple-600/20 text-purple-300 flex items-center justify-center hover:bg-purple-600 hover:text-white transition-all">
+                                <i class="fa-solid fa-arrow-up text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: Lenicon Consulting -->
+                <div class="glass-panel rounded-3xl overflow-hidden group reveal flex flex-col justify-between">
+                    <div class="h-56 overflow-hidden relative bg-gradient-to-br from-blue-900/50 to-purple-900/50">
+                        <img src="https://placehold.co/600x400/1e3a8a/c084fc?text=Lenicon+Consulting&font=inter" 
+                             alt="Lenicon Consulting" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80"></div>
+                        <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-purple-300 text-xs font-bold border border-white/10">Consulting</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Lenicon Consulting</h3>
+                        <p class="text-zinc-400 text-sm mb-6">Portfolio growth architecture and strategic consulting for business expansion and investment prioritization.</p>
+                        <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                            <span class="text-xs text-zinc-500 font-semibold">Web Design & Strategy</span>
+                            <a href="https://leniconsulting.com/" target="_blank" class="w-9 h-9 rounded-full bg-purple-600/20 text-purple-300 flex items-center justify-center hover:bg-purple-600 hover:text-white transition-all">
+                                <i class="fa-solid fa-arrow-up text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: LyfeStyle App -->
+                <div class="glass-panel rounded-3xl overflow-hidden group reveal flex flex-col justify-between">
+                    <div class="h-56 overflow-hidden relative bg-gradient-to-br from-pink-900/50 to-rose-900/50">
+                        <img src="https://placehold.co/600x400/4c0519/c084fc?text=LyfeStyle+App&font=inter" 
+                             alt="LyfeStyle App" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80"></div>
+                        <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-purple-300 text-xs font-bold border border-white/10">SaaS Platform</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">LyfeStyle App</h3>
+                        <p class="text-zinc-400 text-sm mb-6">Service marketplace for automotive, fashion, and jewellery with live project timelines and vendor tracking.</p>
+                        <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                            <span class="text-xs text-zinc-500 font-semibold">Mobile App & SaaS</span>
+                            <a href="https://lyfestyleapp.com/" target="_blank" class="w-9 h-9 rounded-full bg-purple-600/20 text-purple-300 flex items-center justify-center hover:bg-purple-600 hover:text-white transition-all">
+                                <i class="fa-solid fa-arrow-up text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: Live Evexia -->
+                <div class="glass-panel rounded-3xl overflow-hidden group reveal flex flex-col justify-between">
+                    <div class="h-56 overflow-hidden relative bg-gradient-to-br from-emerald-900/50 to-teal-900/50">
+                        <img src="https://placehold.co/600x400/064e3b/c084fc?text=Live+Evexia&font=inter" 
+                             alt="Live Evexia" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80"></div>
+                        <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-purple-300 text-xs font-bold border border-white/10">Healthcare</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Live Evexia</h3>
+                        <p class="text-zinc-400 text-sm mb-6">Cash-pay wellness practice offering telehealth and in-person care for metabolic and hormonal health.</p>
+                        <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                            <span class="text-xs text-zinc-500 font-semibold">Web Dev & Telehealth</span>
+                            <a href="https://liveevexia.com/" target="_blank" class="w-9 h-9 rounded-full bg-purple-600/20 text-purple-300 flex items-center justify-center hover:bg-purple-600 hover:text-white transition-all">
+                                <i class="fa-solid fa-arrow-up text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 relative bg-zinc-950/40">
+        <div class="max-w-4xl mx-auto px-6 reveal">
+            <div class="glass-panel rounded-3xl p-8 md:p-12 relative overflow-hidden text-center">
+                <div class="absolute -top-12 -left-12 w-48 h-48 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 mx-auto flex items-center justify-center text-white text-2xl mb-8 shadow-lg shadow-purple-500/30">
+                    <i class="fa-solid fa-quote-left"></i>
+                </div>
+
+                <p class="text-xl md:text-2xl text-zinc-200 font-medium leading-relaxed mb-8">
+                    "Danish Imran completely transformed our digital presence. His mastery in web development and strategic SEO boosted our online revenue by over 200% within just three months. An absolute pleasure to work with!"
+                </p>
+
+                <div class="flex items-center justify-center gap-4">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150" 
+                         alt="Client" 
+                         class="w-12 h-12 rounded-full object-cover border border-purple-500/50"
+                         onerror="this.src='https://placehold.co/150x150/121216/c084fc?text=User'">
+                    <div class="text-left">
+                        <h4 class="text-white font-bold text-sm">Alexander Vance</h4>
+                        <p class="text-zinc-400 text-xs">CEO, TechVanguard Inc.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog section hidden as requested -->
+    <section id="blog" class="py-24 relative hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+                <span class="text-purple-400 text-xs font-bold tracking-widest uppercase mb-3 block">Insights</span>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight text-white mb-4">Blog <span class="gradient-text">Posts</span></h2>
+                <p class="text-zinc-400">Thoughts, engineering deep-dives, and industry perspectives.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Blog 1 -->
+                <div class="glass-panel rounded-3xl overflow-hidden group reveal flex flex-col justify-between">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=600" 
+                             alt="Blog 1" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                             onerror="this.src='https://placehold.co/600x400/121216/c084fc?text=Blog+1'">
+                        <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-purple-300 text-xs font-bold border border-white/10">Development</span>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-zinc-500 font-medium mb-2 block">October 12, 2026 • 5 min read</span>
+                        <h3 class="text-lg font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">Optimizing Modern Web Applications for Maximum Speed</h3>
+                        <p class="text-zinc-400 text-sm mb-6">Discover advanced bundling, caching, and lazy loading tactics used by elite web engineers.</p>
+                        <a href="#" class="inline-flex items-center gap-2 text-purple-400 font-semibold text-sm group-hover:translate-x-1 transition-transform">
+                            <span>Read Article</span>
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Blog 2 -->
+                <div class="glass-panel rounded-3xl overflow-hidden group reveal flex flex-col justify-between">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600" 
+                             alt="Blog 2" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                             onerror="this.src='https://placehold.co/600x400/121216/c084fc?text=Blog+2'">
+                        <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-purple-300 text-xs font-bold border border-white/10">WordPress</span>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-zinc-500 font-medium mb-2 block">September 28, 2026 • 4 min read</span>
+                        <h3 class="text-lg font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">WordPress Security Best Practices in 2026</h3>
+                        <p class="text-zinc-400 text-sm mb-6">Essential hardening techniques to bulletproof your WordPress site against modern cyber threats.</p>
+                        <a href="#" class="inline-flex items-center gap-2 text-purple-400 font-semibold text-sm group-hover:translate-x-1 transition-transform">
+                            <span>Read Article</span>
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Blog 3 -->
+                <div class="glass-panel rounded-3xl overflow-hidden group reveal flex flex-col justify-between">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?auto=format&fit=crop&q=80&w=600" 
+                             alt="Blog 3" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                             onerror="this.src='https://placehold.co/600x400/121216/c084fc?text=Blog+3'">
+                        <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-purple-300 text-xs font-bold border border-white/10">Consulting</span>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-zinc-500 font-medium mb-2 block">September 15, 2026 • 6 min read</span>
+                        <h3 class="text-lg font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">Scaling Startups Through Smart Digital Transformation</h3>
+                        <p class="text-zinc-400 text-sm mb-6">How operational consulting and tech automation pave the path to rapid, sustainable scaling.</p>
+                        <a href="#" class="inline-flex items-center gap-2 text-purple-400 font-semibold text-sm group-hover:translate-x-1 transition-transform">
+                            <span>Read Article</span>
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 relative bg-zinc-950/60 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                
+                <!-- Left info column -->
+                <div class="lg:col-span-5 space-y-8 reveal">
+                    <div>
+                        <span class="text-purple-400 text-xs font-bold tracking-widest uppercase mb-3 block">Get In Touch</span>
+                        <h2 class="text-4xl md:text-5xl font-black tracking-tight text-white mb-4">Hire <span class="gradient-text">Me</span></h2>
+                        <p class="text-zinc-400 text-base leading-relaxed">
+                            Ready to collaborate or discuss your next big project? Reach out directly via email, phone, or send a message using the form.
+                        </p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4 glass-panel p-4 rounded-2xl">
+                            <div class="w-12 h-12 rounded-xl bg-purple-950/80 border border-purple-500/30 flex items-center justify-center text-purple-300 text-lg">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-zinc-500 font-semibold uppercase block">Email Address</span>
+                                <a href="mailto:danishqureshi1245@gamil.com" class="text-white font-medium hover:text-purple-400 transition-colors">danishqureshi1245@gamil.com</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 glass-panel p-4 rounded-2xl">
+                            <div class="w-12 h-12 rounded-xl bg-purple-950/80 border border-purple-500/30 flex items-center justify-center text-purple-300 text-lg">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-zinc-500 font-semibold uppercase block">Phone Number</span>
+                                <a href="tel:03452763364" class="text-white font-medium hover:text-purple-400 transition-colors">03452763364</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right form column -->
+                <div class="lg:col-span-7 reveal">
+                    <form id="contact-form" class="glass-panel rounded-3xl p-8 md:p-10 space-y-6 relative">
+                        <div id="form-success" class="hidden p-4 rounded-xl bg-purple-900/40 border border-purple-500/50 text-purple-200 text-sm font-medium">
+                            Thank you! Your message has been sent successfully. Danish will get back to you shortly.
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-xs font-semibold uppercase text-zinc-400">Your Name</label>
+                                <input type="text" required placeholder="John Doe" 
+                                       class="w-full bg-zinc-900/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-zinc-600 focus:outline-none focus:border-purple-500 transition-colors text-sm">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-xs font-semibold uppercase text-zinc-400">Your Email</label>
+                                <input type="email" required placeholder="john@example.com" 
+                                       class="w-full bg-zinc-900/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-zinc-600 focus:outline-none focus:border-purple-500 transition-colors text-sm">
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-xs font-semibold uppercase text-zinc-400">Subject</label>
+                            <input type="text" required placeholder="Project Inquiry / Consulting" 
+                                   class="w-full bg-zinc-900/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-zinc-600 focus:outline-none focus:border-purple-500 transition-colors text-sm">
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-xs font-semibold uppercase text-zinc-400">Message</label>
+                            <textarea rows="5" required placeholder="Tell me about your project goals and timeline..." 
+                                      class="w-full bg-zinc-900/80 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-zinc-600 focus:outline-none focus:border-purple-500 transition-colors text-sm resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold transition-all shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2">
+                            <span>Send Message</span>
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 border-t border-white/5 text-center text-zinc-500 text-sm">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p>© 2026 Danish Imran. All rights reserved.</p>
+            <div class="flex items-center gap-6">
+                <a href="#about" class="hover:text-purple-400 transition-colors">Privacy Policy</a>
+                <a href="#about" class="hover:text-purple-400 transition-colors">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor movement
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorCircle = document.getElementById('cursor-circle');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.transform = `translate(${posX}px, ${posY}px)`;
+            cursorCircle.style.transform = `translate(${posX}px, ${posY}px)`;
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Scroll reveal animation using Intersection Observer
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // Contact form submission handler
+        const contactForm = document.getElementById('contact-form');
+        const formSuccess = document.getElementById('form-success');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            formSuccess.classList.remove('hidden');
+            contactForm.reset();
+            setTimeout(() => {
+                formSuccess.classList.add('hidden');
+            }, 6000);
+        });
+
+        // Navbar shadow on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 40) {
+                navbar.classList.add('shadow-2xl', 'bg-black/80');
+            } else {
+                navbar.classList.remove('shadow-2xl', 'bg-black/80');
+            }
+        });
+    </script>
 </body>
 </html>
